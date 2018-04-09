@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Cruds;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\ControleAcesso;
+use App\User;
+use App\Professor;
 
 class ControleAcessoController extends Controller
 {
@@ -25,12 +27,12 @@ class ControleAcessoController extends Controller
 
     public function store($request,$atributes)
     {
-    	/*$scopes_direto_do_client = $this->filtrarScopesRetorno($request);
-    	$scope_formatado_verificado = $this->formatScope($atributes['scope'],$scopes_direto_do_client);*/
-    	
+    	//$scope_formatado_verificado = $this->formatScope($atributes['scope'],$scopes_direto_do_client);
+    	$scope_formatado_verificado = $atributes['scope'];
+
     	return ControleAcesso::create([
     		'user_id' => $atributes['user_id'],
-    		'scope' => $request['scope'],
+    		'scope' => $scope_formatado_verificado,
     	]);
     }
 
@@ -183,5 +185,35 @@ class ControleAcessoController extends Controller
                 ]
             ]
         ];
+    }
+
+    public function guard(Request $request)
+    {
+        $user_id = $request->user()->token()['user_id'];
+        $user_dado = User::find($user_id);
+        $professor_dado = Professor::where('user_id', $user_id)->get();
+        $acesso_dado = ControleAcesso::where('user_id', $user_id)->get();
+
+        $professor = new \stdClass;
+        $professor->cpf = $professor_dado[0]->cpf;
+        $professor->matricula = $professor_dado[0]->matricula_prof;
+
+        $user = new \stdClass;
+        $user->id = $user_dado->id;
+        $user->email = $user_dado->email;
+        $user->name = $user_dado->name;
+        $user->sexo = $user_dado->sexo;
+        $user->telefone = $user_dado->telefone;
+        $user->info_client = $user_dado->info_client;
+        $user->professor = $professor;
+
+        $acesso = new \stdClass;
+        $acesso->role = $acesso_dado[0]->role;
+        $acesso->scope = $acesso_dado[0]->scope;
+
+        return response()->json([
+            'user' => $user,
+            'acesso' => $acesso
+        ]);
     }
 }

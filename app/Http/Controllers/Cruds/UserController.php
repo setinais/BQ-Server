@@ -33,23 +33,22 @@ class UserController extends Controller
 
     public function store(StoreUser $request)
     {
-        
-        $request['scope'] = '[[carvalho';
     	$user = User::create([
             'name' => $request['name'],
             'email' => $request['email'],
             'sexo' => $request['sexo'],
             'telefone' => $request['telefone'],
             'password' => bcrypt($request['password']),
-            'info_client' => 'NULL'
+            'info_client' => $request['info_client']
         ]);
         if(isset($user->id))
             $controle_acesso = new ControleAcessoController;
             $retorno = $controle_acesso->store($request,[
                 'user_id' => $user->id,
-                'scope' => $request['scope']
+                'scope' => "[usuario[get-questao",
+                'role' => "aluno"
             ]);
-        return response()->json([$user],200); 
+        return response()->json([$user,$retorno],200); 
         /*Parametros de envio 
 			
 			"name" : "Vinnciyus carvalho",

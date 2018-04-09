@@ -27,6 +27,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });*/
 	Route::namespace('Cruds')->group(function () {
 		//Rotas Adicionais
+			//ControlleAcesso
+		Route::get('/controle-acesso/guard', 'ControleAcessoController@guard')->middleware('auth:api')->name('contole-acesso.guard');
 
 			//AreConhecimento
 		Route::get('/area-conhecimento/categorias', 'AreaConhecimentoController@categorias')->name('area-conhecimento.categorias');

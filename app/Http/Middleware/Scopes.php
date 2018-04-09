@@ -18,17 +18,20 @@ class Scopes
     public function handle($request, Closure $next)
     {
         $controle = null;
-        if($request['grant_type'] == "password"){
-            $controle = User::where('email',$request['username'])->first();
+        if(!empty($request['username'])){
+            if($request['grant_type'] == "password"){
+                $controle = User::where('email',$request['username'])->first();
+            }
+            if($request['grant_type'] == "client_credentials"){
+                $client = Client::find($request['client_id']);
+                $controle = User::find($client->user_id);
+            }
+            if(!empty($controle)){
+                $scopes = $this->transformer($controle->acesso->scope);
+                if(!is_null($controle))
+                    $request->request->add(['scope' => $scopes]);
+            }
         }
-        if($request['grant_type'] == "client_credentials"){
-            $client = Client::find($request['client_id']);
-            $controle = User::find($client->user_id);
-        }
-        $scopes = $this->transformer($controle->acesso->scope);
-        if(!is_null($controle))
-            $request->request->add(['scope' => $scopes]);
-        
         return $next($request);
     }
     private function transformer($scopes)

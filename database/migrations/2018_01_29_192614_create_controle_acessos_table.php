@@ -16,7 +16,7 @@ class CreateControleAcessosTable extends Migration
         Schema::create('controle_acessos', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unique();
-            $table->enum('role',['admin','client','professor','pendente'])->default('pendente');
+            $table->enum('role',['admin','client','professor','aluno','pendente'])->default('pendente');
             $table->text('scope')->nullable();
             $table->timestamps();
         });

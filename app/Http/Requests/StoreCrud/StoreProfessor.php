@@ -3,6 +3,7 @@
 namespace App\Http\Requests\StoreCrud;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreProfessor extends FormRequest
 {
@@ -24,11 +25,14 @@ class StoreProfessor extends FormRequest
     public function rules()
     {
         return [
-                'nome'             => 'required|string',
-                'matricula'        => 'required|integer',
-                'cpf'                   => 'required|string|numeric|size:11',
-                'id_user'               => 'required|integer',
-                'documento_de_comprovacao' => 'required|file'
+                'matricula'             => 'required|integer',
+                'cpf'                   => 'required|string|numeric',
+                //'documento_comprovante' => 'file',
+                'name'      => 'required|string|max:255',
+                'email'     => 'required|string|email|max:255|unique:users',
+                'password'  => 'required|string|min:6|confirmed',
+                'telefone'  => 'sometimes|numeric',
+                'sexo'      => ['sometimes',Rule::in(['Masculino','Feminino']),]
         ];
     }
 
@@ -36,20 +40,34 @@ class StoreProfessor extends FormRequest
     {
         return [
 
-                'nome.required'             => 'O :attribute é obrigatorio!',
-                'nome.string'               => 'O :attribute deve ser uma Palavra!',
-
-                'matricula.required'        => 'O :attribute é obrigatorio!',
-                'matricula.integer'         => 'O :attribute deve conter somente numeros!',
+                'matricula.required'        => 'A :attribute é obrigatorio!',
+                'matricula.integer'         => 'A :attribute deve conter somente numeros!',
 
                 'cpf.required'                   => 'O :attribute é obrigatorio!',
                 'cpf.numeric'                    => 'O :attribute deve conter somente numeros!',
                 'cpf.size'                       => 'O :attribute tem que ter no 11 numeros!',
 
-                'id_user.required'               => 'O :attribute é obrigatorio!',
+                'documento_comprovante.required' => 'O :attribute é obrigatorio!',
+                'documento_comprovante.file'     => 'O :attribute não é um arquivo!',
 
-                'documento_de_comprovacao.required' => 'O :attribute é obrigatorio!',
-                'documento_de_comprovacao.file'     => 'O :attribute não é um arquivo!'
+                'name.required' => 'O :attribute é um campo Obrigatorio!',
+                'name.string'   => 'O :attribute deve conter somente caracteries!',
+                'name.max'      => 'O :attribute deve conter no maximo :max caracteries!',
+                
+                'email.required' => 'O :attribute é um campo Obrigatorio!',
+                'email.email'    => 'Este :attribute não é valido!',
+                'email.string'   => 'O :attribute deve conter somente caracteries!',
+                'email.max'      => 'O :attribute deve conter no maximo :max caracteries!',
+                'email.unique'   => 'Já existe um :attribute cadastro!',
+
+                'password.required'  => 'A :attribute é obrigatoria',
+                'password.string'    => 'A :attribute deve ser uma String!',
+                'password.min'       => 'A :attribute deve ter no minimo :min caracteries!',
+                'password.confirmed' => 'As :attribute não se coincidem!',
+
+                'telefone.numeric' => 'O :attribute deve conter somente numeros!',
+
+                'sexo.in' => 'Valor do :attribute invalido!'
         ];
     }
 }

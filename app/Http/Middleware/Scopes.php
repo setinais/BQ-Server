@@ -32,7 +32,8 @@ class Scopes
                     $request->request->add(['scope' => $scopes]);
             }
         }
-        return $next($request);
+        
+       return $next($request);
     }
     private function transformer($scopes)
     {
@@ -40,4 +41,5 @@ class Scopes
 
         return (string) $scopes2[1]." ".$scopes2[2];
     }
+
 }

@@ -17,4 +17,9 @@ class AreaConhecimento extends Model
     {
     	return $this->hasMany('App\Questao');
     }
+
+    public function subCategorias()
+    {
+        return $this->belongsToMany('App\AreaConhecimento');
+    }
 }

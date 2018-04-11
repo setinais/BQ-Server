@@ -13,13 +13,14 @@ class AreaConhecimentoController extends Controller
 	function __construct()
 	{
 		$this->middleware('auth:api');
-        $this->middleware('scope:carvalho')->only('index');
+        /*$this->middleware('scope:carvalho')->only('index');
         $this->middleware('scope:areaconhecimento,carvalho,get-areaconhecimento')->only('categorias');
         $this->middleware('scope:areaconhecimento,carvalho,get-areaconhecimento')->only('subCategorias');
         $this->middleware('scope:areaconhecimento,carvalho,get-areaconhecimento')->only('show');
         $this->middleware('scope:areaconhecimento,carvalho,store-areaconhecimento')->only('store');
         $this->middleware('scope:areaconhecimento,carvalho,update-areaconhecimento')->only('update');
         $this->middleware('scope:areaconhecimento,carvalho,destroy-areaconhecimento')->only('destroy');
+        $this->middleware('')*/
 
 	}
 
@@ -84,5 +85,21 @@ class AreaConhecimentoController extends Controller
         $area->delete();
 
         return $area;
+    }
+
+    public function getAreasEncadeadas()
+    {
+        $length = 0;
+
+        $areas = AreaConhecimento::where('sub_categoria_id')->get();
+
+        $length = count($areas);
+
+        foreach ($areas as $key => $value) {
+            $areas[$key]->sub_categoria_id = AreaConhecimento::where('sub_categoria_id', $value->id)->get();
+            $length += count($areas[$key]->sub_categoria_id);
+        }
+
+        return response()->json($areas);
     }
 }

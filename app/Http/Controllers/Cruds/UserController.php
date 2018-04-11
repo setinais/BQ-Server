@@ -48,7 +48,7 @@ class UserController extends Controller
                 'scope' => "[usuario[get-questao",
                 'role' => "aluno"
             ]);
-        return response()->json([$user,$retorno],200); 
+        return response()->json([$user,$retorno]); 
         /*Parametros de envio 
 			
 			"name" : "Vinnciyus carvalho",

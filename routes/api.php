@@ -33,7 +33,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 			//AreConhecimento
 		Route::get('/area-conhecimento/categorias', 'AreaConhecimentoController@categorias')->name('area-conhecimento.categorias');
 	    Route::get('/area-conhecimento/sub-categorias/{area_conhecimento}', 'AreaConhecimentoController@subCategorias')->name('area-conhecimento.subCategorias');
-
+	    Route::get('/area-conhecimento/areas-encadeadas', 'AreaConhecimentoController@getAreasEncadeadas')->name('area-conhecimento.areas-encadeadas');
+	    
 	    	//Questao
 	    	//Professor
 	    	

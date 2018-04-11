@@ -198,6 +198,10 @@ class ControleAcessoController extends Controller
         $professor->cpf = $professor_dado[0]->cpf;
         $professor->matricula = $professor_dado[0]->matricula_prof;
 
+        $acesso = new \stdClass;
+        $acesso->role = $acesso_dado[0]->role;
+        $acesso->scope = $acesso_dado[0]->scope;
+
         $user = new \stdClass;
         $user->id = $user_dado->id;
         $user->email = $user_dado->email;
@@ -206,14 +210,12 @@ class ControleAcessoController extends Controller
         $user->telefone = $user_dado->telefone;
         $user->info_client = $user_dado->info_client;
         $user->professor = $professor;
+        $user->acesso = $acesso;
 
-        $acesso = new \stdClass;
-        $acesso->role = $acesso_dado[0]->role;
-        $acesso->scope = $acesso_dado[0]->scope;
+       
 
         return response()->json([
-            'user' => $user,
-            'acesso' => $acesso
+            $user
         ]);
     }
 }

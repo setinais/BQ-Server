@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cruds;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCrud\StoreQuestao;
+use Illuminate\Http\Request;
 use App\Questao;
 use App\AreaConhecimento;
 use App\Professor;

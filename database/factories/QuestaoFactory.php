@@ -11,15 +11,14 @@ $factory->define(App\Questao::class, function (Faker $faker) {
 
 	$alternativas = "[";
 	$setences = $faker->sentences($faker->numberBetween(4,5),false);
-	foreach ($setences as $key => $value) {
-		$alternativas .= $value.",";
-	}
-	$alternativas.= "]";    return [
+	
+	$alternativas.= "]";    
+	return [
         'enunciado' => $faker->text,
-        'alternativas' => json_encode($alternativas),
+        'alternativas' => json_encode($setences),
         'nivel' => $faker->randomDigit,
-        'sub_categoria' => json_encode($ids),
-        'disciplina_id' => $faker->numberBetween(1,20),
+        'sub_categoria' => $faker->numberBetween(1,420),
+        //'disciplina_id' => $faker->numberBetween(1,20),
         'professor_id' => $faker->numberBetween(1,100)
     ];
 });

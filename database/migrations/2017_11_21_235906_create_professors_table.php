@@ -19,7 +19,7 @@ class CreateProfessorsTable extends Migration
             $table->string('matricula_prof',15);
             $table->string('cpf',11);
             $table->integer('user_id');
-            $table->binary('documento_comprovante');
+            $table->binary('documento_comprovante')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

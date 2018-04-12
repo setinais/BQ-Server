@@ -18,8 +18,7 @@ class CreateQuestaosTable extends Migration
             $table->longText('enunciado');
             $table->json('alternativas')->nullable();
             $table->integer('nivel');
-            $table->json('sub_categoria')->nullable();
-            $table->integer('disciplina_id');
+            $table->integer('sub_categoria');
             $table->integer('professor_id');
             $table->timestamps();
             $table->softDeletes();

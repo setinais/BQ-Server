@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCrud\StoreAreaConhecimento;
 use App\Http\Requests\UpdateCrud\UpdateAreaConhecimento;
 use App\AreaConhecimento;
+use Illuminate\Http\Request;
 
 class AreaConhecimentoController extends Controller
 {
@@ -102,4 +103,29 @@ class AreaConhecimentoController extends Controller
 
         return response()->json($areas);
     }
+
+    public function getQntdQuestao(Request $request)
+    {
+        $qntd = 0;
+        $questoes = AreaConhecimento::find($request['ids']);
+        foreach ($questoes as $key => $value) {
+            $qntd += count($value->questaos()->get());
+        }
+        return response()->json(['qntd' => $qntd]);
+    }
+
+    public function getQuestoesProva(Request $request)
+    {
+        $quest = [];
+        $questoes = AreaConhecimento::find($request['ids']);
+        foreach ($questoes as $key => $value) {
+            $temp = $value->questaos()->get();
+            foreach ($temp as $key2 => $value2) {
+                $value2->alternativas = (array) json_decode($value2->alternativas);
+                $quest[] = $value2;
+            }
+        }
+        return response()->json($quest);
+    }
+
 }

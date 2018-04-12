@@ -33,9 +33,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 			//AreConhecimento
 		Route::get('/area-conhecimento/categorias', 'AreaConhecimentoController@categorias')->name('area-conhecimento.categorias');
 	    Route::get('/area-conhecimento/sub-categorias/{area_conhecimento}', 'AreaConhecimentoController@subCategorias')->name('area-conhecimento.subCategorias');
-	    Route::get('/area-conhecimento/areas-encadeadas', 'AreaConhecimentoController@getAreasEncadeadas')->name('area-conhecimento.areas-encadeadas');
-	    
+	    Route::get('/area-conhecimento/areas-encadeadas', 'AreaConhecimentoController@getAreasEncadeadas')->name('area-conhecimento.getAreasEncadeadas');
+	    Route::post('/area-conhecimento/getQntdQuestao', 'AreaConhecimentoController@getQntdQuestao')->name('area-conhecimento.getQntdQuestao');
+	    Route::post('/area-conhecimento/getQuestoesProva', 'AreaConhecimentoController@getQuestoesProva')->name('area-conhecimento.getQuestoesProva');
 	    	//Questao
+	    
+
 	    	//Professor
 	    	
 	    // Controllers Within The "App\Http\Controllers\Cruds" Namespace

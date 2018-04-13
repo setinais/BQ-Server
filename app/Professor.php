@@ -11,4 +11,9 @@ class Professor extends Model
     
     protected $guarded = [];
     protected $dates = ['deleted_at'];
+
+    public function user()
+    {
+    	return $this->hasOne('App\User');
+    }
 }

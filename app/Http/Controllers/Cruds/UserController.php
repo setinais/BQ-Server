@@ -14,11 +14,11 @@ class UserController extends Controller
     function __construct()
 	{
 		$this->middleware('auth:api')->except('store');
-        $this->middleware('scope:carvalho')->only('index');
+        /*$this->middleware('scope:carvalho')->only('index');
         $this->middleware('scope:usuario,carvalho,get-usuario')->only('show');
         $this->middleware('client')->only('store');
         $this->middleware('scope:usuario,carvalho,update-usuario')->only('update');
-        $this->middleware('scope:usuario,carvalho,destroy-usuario')->only('destroy');
+        $this->middleware('scope:usuario,carvalho,destroy-usuario')->only('destroy');*/
 	}
 
     public function index()

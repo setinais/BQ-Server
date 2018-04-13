@@ -14,11 +14,11 @@ class QuestaoController extends Controller
 	function __construct()
 	{
 		$this->middleware('auth:api');
-        $this->middleware('scope:questao,carvalho, get-questao')->only('index');
+        /*$this->middleware('scope:questao,carvalho, get-questao')->only('index');
         $this->middleware('scope:questao,carvalho, get-questao')->only('show');
         $this->middleware('scope:questao,carvalho, store-questao')->only('store');
         $this->middleware('scope:questao,carvalho, update-questao')->only('update');
-        $this->middleware('scope:questao,carvalho, destroy-questao')->only('destroy');
+        $this->middleware('scope:questao,carvalho, destroy-questao')->only('destroy');*/
 	}
 
     public function index()

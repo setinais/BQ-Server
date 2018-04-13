@@ -17,16 +17,22 @@ class ProfessorController extends Controller
 	function __construct()
 	{
 		$this->middleware('auth:api')->except('store');
-        $this->middleware('scope:carvalho')->only('index');
-        $this->middleware('scope:professor,carvalho,get-professor')->only('show');
+        //$this->middleware('scope:carvalho')->only('index');
+        /*$this->middleware('scope:professor,carvalho,get-professor')->only('show');
         $this->middleware('client')->only('store');
         $this->middleware('scope:professor,carvalho,update-professor')->only('update');
-        $this->middleware('scope:professor,carvalho,destroy-professor')->only('destroy');
+        $this->middleware('scope:professor,carvalho,destroy-professor')->only('destroy');*/
 	}
 
     public function index()
     {
-        return response()->json('Page Not Faund',404);
+        $controle = ControleAcesso::where('role','pendente')->get();
+        $professor = [];
+        foreach ($controle as $key => $value) {
+            $professor[$key] = Professor::find($value->user_id);
+        }
+
+        return response()->json($professor);
     }
 
     public function show($professor_id)

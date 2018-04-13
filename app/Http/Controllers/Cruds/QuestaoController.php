@@ -44,7 +44,7 @@ class QuestaoController extends Controller
             $response[$key]->disciplina_id = AreaConhecimento::find($questoes[$key]->disciplina_id);
             $response[$key]->professor_id = Professor::find($questoes[$key]->professor_id);
         }
-    	return $response;
+    	return $questoes;
     }
 
     public function store(StoreQuestao $request)

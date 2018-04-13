@@ -218,4 +218,9 @@ class ControleAcessoController extends Controller
             $user
         ]);
     }
+
+    public function professoresPendentes()
+    {
+        $acessos = ControleAcesso::where('role','pendente')->get();
+    }
 }

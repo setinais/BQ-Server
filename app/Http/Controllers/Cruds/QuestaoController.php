@@ -33,9 +33,11 @@ class QuestaoController extends Controller
         return $response;
     }
 
-    public function show($questao_id)
+    public function show($questao_id, Request $request)
     {
-        $questoes = Questao::where('professor_id',$questao_id)->paginate(10);
+        $id = $request->user()->token()['user_id'];
+        $professor = Professor::where('user_id',$id)->get();
+        $questoes = Questao::where('professor_id',$professor[0]->id)->paginate(10);
         $response = $questoes;
         foreach ($questoes as $key => $value) {
             $response[$key] = $questoes[$key];
@@ -47,13 +49,14 @@ class QuestaoController extends Controller
 
     public function store(StoreQuestao $request)
     {
+        $id = $request->user()->token()['user_id'];
+        $professor = Professor::where('user_id',$id)->get();
     	return Questao::create([
                 'enunciado'     => $request['enunciado'],
                 'alternativas'  => json_encode($request['alternativas']),
                 'nivel'         => $request['nivel'],
-                'sub_categoria' => json_encode($request['sub_categoria']),
-                'disciplina_id' => $request['disciplina_id'],
-                'professor_id'  => $request['professor_id']
+                'sub_categoria' => $request['sub_categoria'],
+                'professor_id'  => $professor[0]->id
         ]);
 
         /* Parametros Envio

@@ -28,8 +28,8 @@ class StoreQuestao extends FormRequest
             "enunciado"     => "required|",
             "alternativas"  => "required|",
             "nivel"         => "required|",
-            "disciplina_id" => ["integer","exists:area_conhecimentos,id"],
-            "professor_id"  => ["integer","exists:professors,id"]
+            "sub_categoria" => ["integer","exists:area_conhecimentos,id"],
+            //"professor_id"  => ["integer","exists:professors,id"]
         ];
     }
 

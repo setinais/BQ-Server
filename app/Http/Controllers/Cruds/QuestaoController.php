@@ -41,10 +41,10 @@ class QuestaoController extends Controller
         $response = $questoes;
         foreach ($questoes as $key => $value) {
             $response[$key] = $questoes[$key];
-            $response[$key]->disciplina_id = AreaConhecimento::find($questoes[$key]->disciplina_id);
+            $response[$key]->sub_categoria = AreaConhecimento::find($questoes[$key]->sub_categoria);
             $response[$key]->professor_id = Professor::find($questoes[$key]->professor_id);
         }
-    	return $questoes;
+    	return $response;
     }
 
     public function store(StoreQuestao $request)
@@ -54,6 +54,7 @@ class QuestaoController extends Controller
     	return Questao::create([
                 'enunciado'     => $request['enunciado'],
                 'alternativas'  => json_encode($request['alternativas']),
+                'alternativa_correta' => $request['alternativa_correta'],
                 'nivel'         => $request['nivel'],
                 'sub_categoria' => $request['sub_categoria'],
                 'professor_id'  => $professor[0]->id

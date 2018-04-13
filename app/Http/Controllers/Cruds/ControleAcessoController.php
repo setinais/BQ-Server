@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\ControleAcesso;
 use App\User;
 use App\Professor;
+use App\Questao;
 
 class ControleAcessoController extends Controller
 {
@@ -223,4 +224,14 @@ class ControleAcessoController extends Controller
     {
         $acessos = ControleAcesso::where('role','pendente')->get();
     }
+
+    public function estatistica()
+    {
+        $questao = count(Questao::all());
+        $professor = count(Professor::all());
+        $controle = count(ControleAcesso::where('role','aluno')->get());
+
+        return response()->json(['questao' => $questao,'educador' => $professor, 'aluno' => $controle]);
+    }
+
 }

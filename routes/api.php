@@ -29,6 +29,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 		//Rotas Adicionais
 			//ControlleAcesso
 		Route::get('/controle-acesso/guard', 'ControleAcessoController@guard')->middleware('auth:api')->name('contole-acesso.guard');
+		Route::get('/estatistica','ControleAcessoController@estatistica')->name('estatistica');
 
 			//AreConhecimento
 		Route::get('/area-conhecimento/categorias', 'AreaConhecimentoController@categorias')->name('area-conhecimento.categorias');

@@ -17,6 +17,7 @@ class CreateQuestaosTable extends Migration
             $table->increments('id');
             $table->longText('enunciado');
             $table->json('alternativas')->nullable();
+            $table->integer('alternativa_correta');
             $table->integer('nivel');
             $table->integer('sub_categoria');
             $table->integer('professor_id');

@@ -55,11 +55,6 @@ class AreaConhecimentoController extends Controller
                     'area_de_conhecimento' => $request['area'],
                     'sub_categoria_id'     => $request['sub_categoria'],
             ]);
-        }else if(isset($request['sub_categoria']) && $request->user()['role'] != 'usuario'){
-        	return AreaConhecimento::create([
-                    'area_de_conhecimento' => $request['area'],
-                    'sub_categoria_id'     => $request['sub_categoria'],
-            ]);
         }else{
             return response()->json(['Usuario não autorizado!'],403);
         }

@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateCrud\UpdateProfessor;
 use App\Professor;
 use App\ControleAcesso;
 use App\User;
+use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -35,9 +36,24 @@ class ProfessorController extends Controller
         return response()->json($professor);
     }
 
-    public function show($professor_id)
+    public function show($professor_id,Request $request)
     {
-    	return Professor::findOrFail($professor_id);
+        $user = User::findOrFail($request->user()->token()['user_id']);
+        $professor = $user->professor;
+        $controle = $user->acesso;
+
+        $data = [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'sexo' => $user->sexo,
+            'telefone' => $user->telefone,
+            'matricula_prof' => $professor->matricula_prof,
+            'cpf'            => $professor->cpf,
+            'role' => $controle->role
+        ];
+
+    	return $data;
     }
 
     public function store(StoreProfessor $request)
@@ -69,19 +85,41 @@ class ProfessorController extends Controller
 
     public function update(UpdateProfessor $request,$professor_id)
     {
-    	$professor = Professor::findOrFail($professor_id);
+    	$user = User::findOrFail($professor_id);
+        $professor = $user->professor;
 
-        if(isset($request['nome']))
-                $professor->nome_prof = $request['nome'];
+        if(isset($request['name']))
+                $user->name = $request['name'];
+        if(isset($request['telefone']))
+                $user->telefone = $request['telefone'];
+        if(isset($request['sexo']))
+                $user->sexo = $request['sexo'];
+        if(isset($request['email']))
+                $user->email = $request['email'];
+     
+        $user->save();
+
+        if(isset($request['cpf']))
+                $professor->cpf = $request['cpf'];
         if(isset($request['matricula']))    
-                $professor->matricula_prof = $request['matricula'];
-        if(isset($request['documento_de_comprovacao']))
-                $professor->documento_comprovante = $request['documento_de_comprovacao'];
+                $professor->matricula_prof = $request['matricula_prof'];
 
         $professor->save();
-        
-        return $professor;
 
+        $controle = $user->acesso;
+
+        $data = [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'sexo' => $user->sexo,
+            'telefone' => $user->telefone,
+            'matricula_prof' => $professor->matricula_prof,
+            'cpf'            => $professor->cpf,
+            'role' => $controle->role
+        ];
+
+        return $data;
     }
 
     public function destroy($professor_id)

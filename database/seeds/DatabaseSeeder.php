@@ -13,7 +13,6 @@ class DatabaseSeeder extends Seeder
     {
        $this->call([
         ProfessoresTableSeeder::class,
-       	AreaConhecimentosTableSeeder::class,
        	QuestaosTableSeeder::class
        ]);
     }

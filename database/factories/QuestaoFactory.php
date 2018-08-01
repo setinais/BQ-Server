@@ -18,7 +18,7 @@ $factory->define(App\Questao::class, function (Faker $faker) {
         'alternativas' => json_encode($setences),
         'alternativa_correta' => $faker->numberBetween(0,(count($setences)-1)),
         'nivel' => $faker->randomDigit,
-        'sub_categoria' => $faker->numberBetween(1,420),
+        'sub_categoria' => $faker->numberBetween(1,87),
         //'disciplina_id' => $faker->numberBetween(1,20),
         'professor_id' => $faker->numberBetween(1,100)
     ];

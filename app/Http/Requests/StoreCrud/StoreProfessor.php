@@ -25,7 +25,7 @@ class StoreProfessor extends FormRequest
     public function rules()
     {
         return [
-                'matricula'             => 'required|integer',
+                'matricula'             => 'required|numeric',
                 'cpf'                   => 'required|string|numeric',
                 //'documento_comprovante' => 'file',
                 'name'      => 'required|string|max:255',
@@ -41,7 +41,7 @@ class StoreProfessor extends FormRequest
         return [
 
                 'matricula.required'        => 'A :attribute é obrigatorio!',
-                'matricula.integer'         => 'A :attribute deve conter somente numeros!',
+                'matricula.numeric'         => 'A :attribute deve conter somente numeros!',
 
                 'cpf.required'                   => 'O :attribute é obrigatorio!',
                 'cpf.numeric'                    => 'O :attribute deve conter somente numeros!',

@@ -4,5 +4,5 @@ Route::post('/oauth/token','\Laravel\Passport\Http\Controllers\AccessTokenContro
 Route::get('/oauth/scopes','Cruds\ControleAcessoController@index');
 
 Route::get('/credentials_client', function(){
-	return response()->json(['client_id' => '3','client_secret' => "gqNozPYLuq2X4usq5DZ7JDZHPKStNqslsRXPqHWn"],200);
+	return response()->json(['client_id' => '3','client_secret' => "SCfLXW5LMB1fuSKbJI0ObbmFhpbBuOZbAUahLYaP"],200);
 });

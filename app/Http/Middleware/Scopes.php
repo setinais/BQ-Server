@@ -27,7 +27,39 @@ class Scopes
                 $controle = User::find($client->user_id);
             }
             if(!empty($controle)){
-                $scopes = $this->transformer($controle->acesso->scope);
+                $scopes = "";
+                if(!empty($controle->acesso->scope))
+                    $scopes = $this->transformer($controle->acesso->scope);
+                if(isset($request['api']) && !empty($request['api'])){
+                    $status_role = false;
+                    $message = "";
+                    switch ($request['api']) {
+                        case 'professor':
+                            if($controle->acesso->role == "professor"){
+                                $status_role = true;
+                            }else if($controle->acesso->role == "pendente"){
+                                $message = "Cadastro sujeito a validação!";
+                            }else{
+                                $message = "Este acesso não é permitido nesta aplicação";
+                            }
+                            break;
+                        case 'aluno':
+                            if($controle->acesso->role == "aluno"){
+                                $status_role = true;
+                            }else{
+                                $message = "Este acesso não é permitido nesta aplicação";
+                            }
+                            break;
+                        default:
+                            # code...
+                            break;
+                    }
+                    if(!$status_role){
+                        return response()->json(['error' => 'Permissão de acesso negada!', 'message' => $message],422);
+                    }
+                }else{
+                    return response()->json(['error' => "parametro 'api' não identificado", 'message' => "especifique a aplicação de acesso"],422);
+                }
                 if(!is_null($controle))
                     $request->request->add(['scope' => $scopes]);
             }

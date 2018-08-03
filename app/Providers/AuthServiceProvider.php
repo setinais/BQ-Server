@@ -30,7 +30,7 @@ class AuthServiceProvider extends ServiceProvider
         Passport::$revokeOtherTokens;
         Passport::$pruneRevokedTokens;
         //Passport::tokensExpireIn(Carbon::now()->addMinute(30));
-        Passport::tokensExpireIn(Carbon::now()->addDays(30));
+        Passport::tokensExpireIn(Carbon::now()->addMinute(1));
         Passport::refreshTokensExpireIn(Carbon::now()->addHours(2));
         //
         

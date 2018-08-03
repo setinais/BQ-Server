@@ -26,9 +26,9 @@ class UserController extends Controller
         return User::all();	
     }
 
-    public function show($user_id)
+    public function show($user_id, Request $request)
     {
-        return User::findOrFail($user_id);
+        return User::findOrFail($request->user()->token()['user_id']);
     }
 
     public function store(StoreUser $request)

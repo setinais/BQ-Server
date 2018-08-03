@@ -57,6 +57,8 @@ class QuestaoController extends Controller
                 'alternativa_correta' => $request['alternativa_correta'],
                 'nivel'         => $request['nivel'],
                 'sub_categoria' => $request['sub_categoria'],
+                'aceita' => json_encode([]),
+                'recusada' => json_encode([]),
                 'professor_id'  => $professor[0]->id
         ]);
 
@@ -99,5 +101,55 @@ class QuestaoController extends Controller
         $questao->delete();
 
         return $questao;
+    }
+
+    public function aceita($id, Request $request)
+    {
+        $questao = Questao::findOrFail($id);
+        $id_prof = $request->user()->token()['user_id'];
+
+        $aceita = json_decode($questao->aceita);
+        $recusada = json_decode($questao->recusada);
+        if(count($aceita) >= 5 || count($recusada) >= 5)
+            return response()->json(['status' => false],200);
+        $aceita[] = $id_prof;
+
+        $questao->aceita = json_encode($aceita);
+        if(count($aceita) >= 5)
+            $questao->status = "Ativo";
+
+        $questao->save();
+
+        return response()->json(['status' => true],200);
+    }
+
+    public function recusa($id, Request $request)
+    {
+        $questao = Questao::findOrFail($id);
+        $id_prof = $request->user()->token()['user_id'];
+
+        $aceita = json_decode($questao->aceita);
+        $recusada = json_decode($questao->recusada);
+        if(count($aceita) >= 5 || count($recusada) >= 5)
+            return response()->json(['status' => false],200);
+
+        $recusada[] = $id_prof;
+
+        $questao->recusada = json_encode($recusada);
+        if(count($recusada) >= 5)
+            $questao->status = "Bloqueada";
+
+        $questao->save();
+
+        return response()->json(['status' => true],200);
+    }
+
+    public function questoesPendentes(Request $request)
+    {
+        $quest = Questao::where('status', 'Pendente')->get();
+        foreach ($quest as $key => $value) {
+            $quest[$key]->sub_categoria = $value->areaConhecimento;
+        }
+        return response()->json($quest,200);
     }
 }

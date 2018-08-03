@@ -20,6 +20,9 @@ class CreateQuestaosTable extends Migration
             $table->integer('alternativa_correta');
             $table->integer('nivel');
             $table->integer('sub_categoria');
+            $table->enum('status',['Pendente','Ativo','Bloqueada'])->default('Pendente');
+            $table->json('aceita');
+            $table->json('recusada');
             $table->integer('professor_id');
             $table->timestamps();
             $table->softDeletes();

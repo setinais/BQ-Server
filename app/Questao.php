@@ -13,6 +13,6 @@ class Questao extends Model
     protected $dates = ['deleted_at'];
 
     public function areaConhecimento(){
-    	return $this->belongsTo('App\AreaConhecimento','foreign_key');
+    	return $this->belongsTo('App\AreaConhecimento', 'sub_categoria');
     }
 }

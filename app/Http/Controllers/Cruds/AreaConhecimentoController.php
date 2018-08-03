@@ -104,7 +104,7 @@ class AreaConhecimentoController extends Controller
         $qntd = 0;
         $questoes = AreaConhecimento::find($request['ids']);
         foreach ($questoes as $key => $value) {
-            $qntd += count($value->questaos()->get());
+            $qntd += count($value->questaos()->where('status','Ativo')->get());
         }
         return response()->json(['qntd' => $qntd]);
     }
@@ -114,7 +114,7 @@ class AreaConhecimentoController extends Controller
         $quest = [];
         $questoes = AreaConhecimento::find($request['ids']);
         foreach ($questoes as $key => $value) {
-            $temp = $value->questaos()->get();
+            $temp = $value->questaos()->where('status','Ativo')->get();
             foreach ($temp as $key2 => $value2) {
                 $value2->alternativas = (array) json_decode($value2->alternativas);
                 $quest[] = $value2;

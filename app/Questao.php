@@ -12,7 +12,7 @@ class Questao extends Model
     protected $guarded = [];
     protected $dates = ['deleted_at'];
 
-    public function areaConhecimento(){
+    public function subCategoria(){
     	return $this->belongsTo('App\AreaConhecimento', 'sub_categoria');
     }
 }

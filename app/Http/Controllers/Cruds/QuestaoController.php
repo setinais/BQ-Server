@@ -146,10 +146,25 @@ class QuestaoController extends Controller
 
     public function questoesPendentes(Request $request)
     {
-        $quest = Questao::where('status', 'Pendente')->get();
+        $id_prof = $request->user()->token()['user_id'];
+        $quest = Questao::where('status', 'Pendente')->oldest()->get();
+        $enviar = [];
         foreach ($quest as $key => $value) {
-            $quest[$key]->sub_categoria = $value->areaConhecimento;
+            $quest[$key]->alternativas = json_decode($quest[$key]->alternativas);
+            $quest[$key]->aceita = json_decode($quest[$key]->aceita);
+            $quest[$key]->recusada = json_decode($quest[$key]->recusada);
+            foreach ($quest[$key]->aceita as $index => $value_aceita) {
+                if($value_aceita == $id_prof)
+                    unset($quest[$key]);
+            }
+            foreach ($quest[$key]->recusada as $key_recusa => $value_recusa) {
+                if($value_recusa == $id_prof)
+                    unset($quest[$key]);
+            }
         }
-        return response()->json($quest,200);
+        foreach ($quest as $key_q => $value_q) if(count($enviar) < 10) {
+            $enviar[] = $value_q;
+        }
+        return response()->json($enviar,200);
     }
 }

@@ -150,6 +150,7 @@ class QuestaoController extends Controller
         $quest = Questao::where('status', 'Pendente')->oldest()->get();
         $enviar = [];
         foreach ($quest as $key => $value) {
+            $quest[$key]->sub_categoria = $value->subCategoria;
             $quest[$key]->alternativas = json_decode($quest[$key]->alternativas);
             $quest[$key]->aceita = json_decode($quest[$key]->aceita);
             $quest[$key]->recusada = json_decode($quest[$key]->recusada);

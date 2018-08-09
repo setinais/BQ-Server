@@ -110,12 +110,12 @@ class QuestaoController extends Controller
 
         $aceita = json_decode($questao->aceita);
         $recusada = json_decode($questao->recusada);
-        if(count($aceita) >= 5 || count($recusada) >= 5)
+        if(count($aceita) >= 3 || count($recusada) >= 3)
             return response()->json(['status' => false],200);
         $aceita[] = $id_prof;
 
         $questao->aceita = json_encode($aceita);
-        if(count($aceita) >= 5)
+        if(count($aceita) >= 3)
             $questao->status = "Ativo";
 
         $questao->save();
@@ -130,13 +130,13 @@ class QuestaoController extends Controller
 
         $aceita = json_decode($questao->aceita);
         $recusada = json_decode($questao->recusada);
-        if(count($aceita) >= 5 || count($recusada) >= 5)
+        if(count($aceita) >= 3 || count($recusada) >= 3)
             return response()->json(['status' => false],200);
 
         $recusada[] = $id_prof;
 
         $questao->recusada = json_encode($recusada);
-        if(count($recusada) >= 5)
+        if(count($recusada) >= 3)
             $questao->status = "Bloqueada";
 
         $questao->save();
@@ -154,13 +154,17 @@ class QuestaoController extends Controller
             $quest[$key]->alternativas = json_decode($quest[$key]->alternativas);
             $quest[$key]->aceita = json_decode($quest[$key]->aceita);
             $quest[$key]->recusada = json_decode($quest[$key]->recusada);
-            foreach ($quest[$key]->aceita as $index => $value_aceita) {
-                if($value_aceita == $id_prof)
-                    unset($quest[$key]);
+            if(count($quest[$key]->aceita) >= 1){
+                foreach ($quest[$key]->aceita as $index => $value_aceita) {
+                    if($value_aceita == $id_prof)
+                        unset($quest[$key]);
+                }
             }
-            foreach ($quest[$key]->recusada as $key_recusa => $value_recusa) {
-                if($value_recusa == $id_prof)
-                    unset($quest[$key]);
+            if(isset($quest[$key])){
+                foreach ($quest[$key]->recusada as $key_recusa => $value_recusa) {
+                    if($value_recusa == $id_prof)
+                        unset($quest[$key]);
+                }
             }
         }
         foreach ($quest as $key_q => $value_q) if(count($enviar) < 10) {

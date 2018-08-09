@@ -116,6 +116,7 @@ class AreaConhecimentoController extends Controller
         foreach ($questoes as $key => $value) {
             $temp = $value->questaos()->where('status','Ativo')->get();
             foreach ($temp as $key2 => $value2) {
+                $value2->sub_categoria = $value->subCategoria;
                 $value2->alternativas = (array) json_decode($value2->alternativas);
                 $value2->aceita = (array) json_decode($value2->aceita);
                 $value2->recusada = (array) json_decode($value2->recusada);

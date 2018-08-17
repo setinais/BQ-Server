@@ -146,8 +146,15 @@ class ProfessorController extends Controller
         $mes_atual--;
         $return[] = $this->selectHistorico($mes_atual,$ano,$id_prof);
 
-        Questao::where('professor_id', $id_prof)->get();
-        return response()->json($return,200);
+        $q = Questao::where('professor_id', $id_prof->id)->where('status', 'Pendente')->orderBy('created_at')->get();
+        foreach ($q as $key => $value) {
+            $q[$key]->alternativas = json_decode($value->alternativas);
+            $q[$key]->aceita = json_decode($value->aceita);
+            $q[$key]->recusada = json_decode($value->recusada);
+        }
+        $response['historico'] = $return;
+        $response['questoes'] = $q;
+        return response()->json($response,200);
     }
 
     private function selectHistorico($mes,$ano,$id_prof){

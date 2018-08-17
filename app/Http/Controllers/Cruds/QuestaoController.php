@@ -106,13 +106,13 @@ class QuestaoController extends Controller
     public function aceita($id, Request $request)
     {
         $questao = Questao::findOrFail($id);
-        $id_prof = $request->user()->token()['user_id'];
+        $id_prof = Professor::where('user_id',$request->user()->token()['user_id'])->first();
 
         $aceita = json_decode($questao->aceita);
         $recusada = json_decode($questao->recusada);
         if(count($aceita) >= 3 || count($recusada) >= 3)
             return response()->json(['status' => false],200);
-        $aceita[] = $id_prof;
+        $aceita[] = $id_prof->id;
 
         $questao->aceita = json_encode($aceita);
         if(count($aceita) >= 3)
@@ -126,14 +126,14 @@ class QuestaoController extends Controller
     public function recusa($id, Request $request)
     {
         $questao = Questao::findOrFail($id);
-        $id_prof = $request->user()->token()['user_id'];
+        $id_prof = Professor::where('user_id',$request->user()->token()['user_id'])->first();
 
         $aceita = json_decode($questao->aceita);
         $recusada = json_decode($questao->recusada);
         if(count($aceita) >= 3 || count($recusada) >= 3)
             return response()->json(['status' => false],200);
 
-        $recusada[] = $id_prof;
+        $recusada[] = $id_prof->id;
 
         $questao->recusada = json_encode($recusada);
         if(count($recusada) >= 3)
@@ -146,7 +146,7 @@ class QuestaoController extends Controller
 
     public function questoesPendentes(Request $request)
     {
-        $id_prof = $request->user()->token()['user_id'];
+        $id_prof = Professor::where('user_id',$request->user()->token()['user_id'])->first();
         $quest = Questao::where('status', 'Pendente')->oldest()->get();
         $enviar = [];
         foreach ($quest as $key => $value) {
@@ -156,13 +156,13 @@ class QuestaoController extends Controller
             $quest[$key]->recusada = json_decode($quest[$key]->recusada);
             if(count($quest[$key]->aceita) >= 1){
                 foreach ($quest[$key]->aceita as $index => $value_aceita) {
-                    if($value_aceita == $id_prof)
+                    if($value_aceita == $id_prof->id)
                         unset($quest[$key]);
                 }
             }
             if(isset($quest[$key])){
                 foreach ($quest[$key]->recusada as $key_recusa => $value_recusa) {
-                    if($value_recusa == $id_prof)
+                    if($value_recusa == $id_prof->id)
                         unset($quest[$key]);
                 }
             }

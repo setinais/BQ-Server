@@ -37,12 +37,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 	    Route::get('/area-conhecimento/areas-encadeadas', 'AreaConhecimentoController@getAreasEncadeadas')->name('area-conhecimento.getAreasEncadeadas');
 	    Route::post('/area-conhecimento/getQntdQuestao', 'AreaConhecimentoController@getQntdQuestao')->name('area-conhecimento.getQntdQuestao');
 	    Route::post('/area-conhecimento/getQuestoesProva', 'AreaConhecimentoController@getQuestoesProva')->name('area-conhecimento.getQuestoesProva');
+	    
 	    	//Questao
 	    Route::get('/questao/aceita/{questao}','QuestaoController@aceita')->name('questao.aceita');
 	    Route::get('/questao/recusa/{questao}','QuestaoController@recusa')->name('questao.recusa');	
 	    Route::get('/questao/pendentes','QuestaoController@questoesPendentes')->name('questao.pendentes');
+
 	    	//Professor
-	    	
+	    Route::get('/professor/historico', 'ProfessorController@historico')->name('professor.historico');
+
 	    // Controllers Within The "App\Http\Controllers\Cruds" Namespace
 	    Route::apiResources([
 			'questao' => 'QuestaoController',

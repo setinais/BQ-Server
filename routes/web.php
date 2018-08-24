@@ -18,7 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
+Route::get('/download', function() {
+	return view('download');
+});
 Route::middleware(['auth'])->group(function () {
 	//Token
 	Route::post('/oauth/token/refresh','\Laravel\Passport\Http\Controllers\TransientTokenController@refresh');
